@@ -1,0 +1,35 @@
+   Creation of project:-
+1) run 'npx create-next-app@latest ./'
+2) create a new file in project directory named '.babelrc'
+3) In .babelrc write & save:
+   {
+    "presets":["next/babel"],
+    "plugins":[]
+   }
+4) install following dependencies:
+  yarn add @chakra-ui/react @emotion/react 
+  @emotion/styled axios framer-motion millify 
+  nprogress react-horizontal-scrolling-menu 
+  react-icons
+
+NOTE: emotion is peer dependency for chakra, axios to make API 
+      request, framer-motion is peer dependency, millify
+      has functions which formats large number to human
+      readable format, nprogress gives a progress loading bar,
+      react-horizontal-scrolling-menu will be used for gallery
+      images
+5) run project by:
+   npm run dev
+
+Rapid API:-
+1) Go to bayut api link -https://www.youtube.com/redirect?event=video_description&redir_token=QUFFLUhqazdMYjBXV1l3OUZramxRSEFVelFNRjdmdHVTUXxBQ3Jtc0ttOW4zekFLRzBMQ2NBVzV4Y1dscnBDUW1qRUo1WS13RFFVSjdqXzFSRUZCemFjcDhlcVFxMnJPaEpWU2ZiRk9ybFNFTEtPYWU1bVNsb3BwWTFUME1WcUU1djRsOWY2aExxZWt3TTZrYmFGZGFwT0RoQQ&q=https%3A%2F%2Frapidapi.com%2Fapidojo%2Fapi%2Fbayut%3Futm_source%3Dyoutube.com%252FJavaScriptMastery%26utm_medium%3DDevRel%26utm_campaign%3DDevRel
+2) Click on subscribe, take free one
+3) COme back, click on test
+4) Under code snippets copy 'header'
+5) Create a js file in which u import axios and paste the
+   header code
+
+Next js properties:-
+- Don't need to specify Routes u can directly use Link & in
+  to need to specify file path (from current file)
+- You can use useRouter obj to get url parameters 
