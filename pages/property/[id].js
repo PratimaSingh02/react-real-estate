@@ -1,14 +1,20 @@
-import {Box,Flex,Spacer,Text,Avatar} from '@chakra-ui/react'
+import { Box, Flex, Spacer, Text, Avatar } from '@chakra-ui/react'
 import { FaBed, FaBath } from 'react-icons/fa';
 import { BsGridFill } from 'react-icons/bs';
 import { GoVerified } from 'react-icons/go';
 import millify from 'millify';
-import {baseUrl,fetchApi} from '../../utils/fetchApi'
+import { baseUrl, fetchApi } from '../../utils/fetchApi'
 import ImageScrollbar from '../../components/ImageScrollbar';
 
-const PropertyDetails=({propertyDetails:{price,rentFrequency,rooms,title,baths,area,agency,isVerified,description,type,purpose,furnishingStatus,amenities,photos}})=>(
+function htmlDecode(input) {
+    var e = document.createElement('div');
+    e.innerHTML = input;
+    return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
+}
+
+const PropertyDetails = ({ propertyDetails: { price, rentFrequency, rooms, title, baths, area, agency, isVerified, description, type, purpose, furnishingStatus, amenities, photos } }) => (
     <Box maxWidth='1000px' margin='auto' p='4'>
-    {photos && <ImageScrollbar data={photos}/>}
+        {photos && <ImageScrollbar data={photos} />}
         <Box w='full' p='6'>
             <Flex paddingTop='2' alignItems='center' justifyContent='space-between'>
                 <Flex alignItems='center'>
@@ -20,14 +26,16 @@ const PropertyDetails=({propertyDetails:{price,rentFrequency,rooms,title,baths,a
                 </Box>
             </Flex>
             <Flex alignItems='center' p='1' justifyContent='space-between' w='250px' color='blue.400'>
-            {rooms}
+                {rooms}
                 <FaBed /> | {baths} <FaBath /> | {millify(area)} sqft <BsGridFill />
             </Flex>
             <Box marginTop='2'>
-              <Text fontSize='lg' marginBottom='2' fontWeight='bold'>{title}</Text>
-              <Text lineHeight='2' color='gray.600'>
-                  {description}
-              </Text>
+                <Text fontSize='lg' marginBottom='2' fontWeight='bold'>{title}</Text>
+                <Text lineHeight='2' color='gray.600'>
+                    <div dangerouslySetInnerHTML={{ __html: htmlDecode(description) }} />
+                    {/* if we r using html entities(character codes) then we need to decode, therefore dangerously */}
+                    {/* {description} */}
+                </Text>
             </Box>
             <Flex flexWrap='wrap' textTransform='uppercase' justifyContent='space-between'>
                 <Flex justifyContent='space-between' w='400px' borderBottom='1px' borderColor='gray.100' p='3'>
@@ -51,12 +59,12 @@ const PropertyDetails=({propertyDetails:{price,rentFrequency,rooms,title,baths,a
                     {amenities?.map((item) => (
                         item?.amenities?.map((amenity) => (
                             <Text key={amenity.text} fontWeight='bold' color='blue.400' fontSize='l' p='2' bg='gray.200' m='1' borderRadius='5'>
-                            {amenity.text}
+                                {amenity.text}
                             </Text>
                         ))
                     ))}
                 </Flex>
-                
+
             </Box>
         </Box>
     </Box>
@@ -64,12 +72,12 @@ const PropertyDetails=({propertyDetails:{price,rentFrequency,rooms,title,baths,a
 
 export async function getServerSideProps({ params: { id } }) {
     const data = await fetchApi(`${baseUrl}/properties/detail?externalID=${id}`);
-    
+
     return {
-      props: {
-        propertyDetails: data,
-      },
+        props: {
+            propertyDetails: data,
+        },
     };
-  }
+}
 
 export default PropertyDetails
